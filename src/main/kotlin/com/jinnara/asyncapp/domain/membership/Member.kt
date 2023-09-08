@@ -7,7 +7,7 @@ import org.springframework.data.relational.core.mapping.Table
 class Member(
   @Id
   var memberId:Long? = null,
-  var memberName:String = "",
-  var emailAddress:String = "",
-  var password:String = ""
+  var memberName:String? = null,
+  var emailAddress:String? = null,
+  var password:String? = null
 )
