@@ -1,7 +1,7 @@
 package com.jinnara.asyncapp.infra.repository
 
+import com.infobip.spring.data.r2dbc.QuerydslR2dbcRepository
 import com.jinnara.asyncapp.domain.membership.Member
-import org.springframework.data.r2dbc.repository.R2dbcRepository
 
-interface MemberRepository: R2dbcRepository<Member, Long>{
+interface MemberRepository: QuerydslR2dbcRepository<Member, Long>{
 }

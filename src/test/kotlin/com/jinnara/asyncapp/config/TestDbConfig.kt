@@ -1,5 +1,6 @@
 package com.jinnara.asyncapp.config
 
+import com.infobip.spring.data.r2dbc.EnableQuerydslR2dbcRepositories
 import com.querydsl.sql.H2Templates
 import com.querydsl.sql.SQLTemplates
 import io.r2dbc.spi.ConnectionFactory
