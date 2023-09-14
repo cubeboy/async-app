@@ -24,19 +24,15 @@ class MemberShipRepositoryTests {
 
   lateinit var impl: MemberServiceImpl
 
-  @Test
-  fun objectBindTest() {
-    assertNotNull(repository)
-  }
-
-  @Test
-  fun serviceBindTest() {
-    assertNotNull(impl)
-  }
-
   @BeforeEach
   fun setup() {
     impl = MemberServiceImpl(repository)
+  }
+
+  @Test
+  fun objectBindTest() {
+    assertNotNull(repository)
+    assertNotNull(impl)
   }
 
   @Test
@@ -83,6 +79,5 @@ class MemberShipRepositoryTests {
         assertEquals(3, it.content.size)
       }
       .verifyComplete()
-
   }
 }
