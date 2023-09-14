@@ -2,17 +2,16 @@ package com.jinnara.asyncapp.infra.repository
 
 import com.infobip.spring.data.r2dbc.EnableQuerydslR2dbcRepositories
 import com.jinnara.asyncapp.config.TestDbConfig
-import com.jinnara.asyncapp.domain.membership.Member
-import com.jinnara.asyncapp.domain.membership.QMember.member
+import com.jinnara.asyncapp.domain.membership.MemberServiceImpl
+import com.jinnara.asyncapp.domain.membership.command.Member
+import com.jinnara.asyncapp.domain.membership.command.QMember.member
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest
-import org.springframework.data.domain.Example
-import org.springframework.data.domain.ExampleMatcher
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Sort
 import org.springframework.test.context.ContextConfiguration
 import reactor.kotlin.test.test
 
@@ -22,6 +21,23 @@ import reactor.kotlin.test.test
 class MemberShipRepositoryTests {
   @Autowired
   lateinit var repository: MemberRepository
+
+  lateinit var impl: MemberServiceImpl
+
+  @Test
+  fun objectBindTest() {
+    assertNotNull(repository)
+  }
+
+  @Test
+  fun serviceBindTest() {
+    assertNotNull(impl)
+  }
+
+  @BeforeEach
+  fun setup() {
+    impl = MemberServiceImpl(repository)
+  }
 
   @Test
   fun objectInitTest() {
@@ -53,5 +69,20 @@ class MemberShipRepositoryTests {
     members.test()
       .expectNextCount(3)
       .verifyComplete()
+  }
+
+  @Test
+  fun findPageableQMembersTest() {
+    val pageable = PageRequest.of(0, 5)
+    val members = impl.getPageableMember(pageable)
+    members.test()
+      .expectSubscription()
+      .assertNext {
+        assertEquals(3, it.totalElements)
+        assertEquals(1, it.totalPages)
+        assertEquals(3, it.content.size)
+      }
+      .verifyComplete()
+
   }
 }

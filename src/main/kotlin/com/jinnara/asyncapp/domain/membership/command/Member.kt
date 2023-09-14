@@ -1,4 +1,4 @@
-package com.jinnara.asyncapp.domain.membership
+package com.jinnara.asyncapp.domain.membership.command
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
